@@ -1,12 +1,13 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using RacingDigital.Areas.Identity.Models;
 using RacingDigital.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// MongoDB connection
 var connectionString = Environment.GetEnvironmentVariable("MONGODB_URI");
 if (connectionString == null)
 {
@@ -14,29 +15,29 @@ if (connectionString == null)
     Environment.Exit(0);
 }
 var client = new MongoClient(connectionString);
-var collection = client.GetDatabase("sample_mflix").GetCollection<BsonDocument>("movies");
-var filter = Builders<BsonDocument>.Filter.Eq("title", "Back to the Future");
-var document = collection.Find(filter).First();
-Console.WriteLine(document);
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+var database = client.GetDatabase("RacingDigital");
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddRazorPages(); 
 builder.Services.AddControllersWithViews();
+
+// Identity with MongoDB
+var mongoDbContext = new MongoDbContext(connectionString, "RacingDigital");
+builder.Services.AddIdentity<AppUser, AppRole>()
+    .AddMongoDbStores<AppUser, AppRole, string>(mongoDbContext)
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
     app.UseHsts();
 }
 
@@ -45,11 +46,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

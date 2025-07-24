@@ -17,7 +17,7 @@
         "MONGODB_URI": "mongodb+srv://danbottrill1:WTh7VeME3F8cBWc3@dbcluster.ai05yxn.mongodb.net/?retryWrites=true&w=majority&appName=DBCluster"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7228;http://localhost:5221"
+      "applicationUrl": "https://localhost:7228;"
     },
     "IIS Express": {
       "commandName": "IISExpress",

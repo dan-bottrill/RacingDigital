@@ -5,7 +5,8 @@ namespace RacingDigital.Models
     public class RaceResult
     {
         [BsonId]
-        public object _id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string _id { get; set; }
         public string Race { get; set; }
         public string RaceDate { get; set; }
         public int RaceTime { get; set; }
@@ -22,9 +23,9 @@ namespace RacingDigital.Models
 
         public int FinishingPosition { get; set; }
 
-        public int DistanceBeaten { get; set; }
+        public double DistanceBeaten { get; set; }
 
-        public int TimeBeaten { get; set; }
+        public double TimeBeaten { get; set; }
 
         public string Notes { get; set; }
     }

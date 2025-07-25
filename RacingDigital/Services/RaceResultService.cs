@@ -7,6 +7,7 @@ namespace RacingDigital.Services
     {
 
         private readonly IMongoCollection<RaceResult> _raceResultsCollection;
+        private readonly IMongoCollection<RaceNotes> _notesCollection;
 
         public RaceResultService()
         {
@@ -21,7 +22,8 @@ namespace RacingDigital.Services
 
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase("RacingDigital");
-            _raceResultsCollection = database.GetCollection<RaceResult>("RaceResults");
+            _raceResultsCollection = database.GetCollection<RaceResult>("Races");
+            _notesCollection = database.GetCollection<RaceNotes>("Notes");
         }
 
         public List<RaceResult> GetAllRaces()

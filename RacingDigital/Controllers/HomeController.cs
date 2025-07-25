@@ -1,6 +1,9 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RacingDigital.Areas.Identity.Models;
 using RacingDigital.Models;
+using RacingDigital.Services;
 
 namespace RacingDigital.Controllers;
 
@@ -8,9 +11,12 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
+    private readonly RaceResultService _raceResultService;
+
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
+        _raceResultService = new RaceResultService();
     }
 
     public IActionResult Index()
@@ -27,5 +33,35 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public IActionResult RaceResults()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult GetAllRaceResults()
+    {
+        var results = _raceResultService.GetAllRaces();
+        return Json(results);
+    }
+
+
+    public async Task<IActionResult> SeedTestUser(
+    [FromServices] UserManager<AppUser> userManager)
+    {
+        var user = new AppUser
+        {
+            UserName = "RacehorseOwner123",
+            FullName = "Dan Bottrill"
+        };
+
+        var result = await userManager.CreateAsync(user, "RedRum2025&");
+
+        if (result.Succeeded)
+            return Ok("User created!");
+        else
+            return BadRequest(result.Errors);
     }
 }

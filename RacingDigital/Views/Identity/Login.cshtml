@@ -1,0 +1,23 @@
+﻿@using RacingDigital.Areas.Identity.NewFolder
+@model LoginViewModel
+
+<div id="login-body" class="w-100">
+    <div class="login-div">
+
+        <h2>Login</h2>
+
+        <form id="login-form" method="post" asp-controller="Account" asp-action="Login">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="accountName" name="AccountName" placeholder="Account Name" required />
+                <label for="accountName">Account Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="Password" placeholder="Password" required />
+                <label for="password">Password</label>
+            </div>
+            <button type="submit" class="btn w-100">Sign In</button>
+        </form>
+
+    </div>
+
+</div>

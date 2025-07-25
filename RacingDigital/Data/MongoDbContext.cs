@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDbGenericRepository;
+using MongoDbGenericRepository.Attributes;
 
 namespace RacingDigital.Data
 {
@@ -23,9 +24,20 @@ namespace RacingDigital.Data
             throw new NotImplementedException();
         }
 
-        public IMongoCollection<T> GetCollection<T>(string collectionName)
+        private static string ResolveCollectionName<T>()
         {
-            return _database.GetCollection<T>(collectionName);
+            var attr = typeof(T).GetCustomAttributes(typeof(CollectionNameAttribute), true)
+                                .FirstOrDefault() as CollectionNameAttribute;
+            return attr?.Name ?? typeof(T).Name;
+        }
+
+        public IMongoCollection<T> GetCollection<T>(string collectionName = null)
+        {
+            var name = collectionName ?? ResolveCollectionName<T>();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Collection name is required");
+
+            return _database.GetCollection<T>(name);
         }
 
         public void SetGuidRepresentation(GuidRepresentation guidRepresentation)

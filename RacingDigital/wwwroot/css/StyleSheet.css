@@ -26,3 +26,58 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr
 }
+#race-results-body {
+    margin: 0px 20px;
+}
+.table-wrapper {
+    padding: 0px 20px;
+}
+.text-input {
+    border: 1px solid #f4f4f4;
+    border-radius: 6px;
+    width: 100%;
+    margin-right: 10px
+}
+.notes-div{
+    display: flex;
+
+}
+.icon-button {
+    border: none;
+    outline: none;
+    text-decoration: none;
+    padding: 0px;
+    color: #929399;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    transition: 0.1s ease-in-out;
+}
+.icon-button:hover {
+    color: #47C086;
+}
+.material-symbols-outlined {
+    font-size: 28px!important;
+}
+
+
+
+
+
+/*LOGIN PAGE*/
+#login-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.login-div {
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    min-width: 400px;
+}
+#login-form button {
+    background-color: #F90049;
+    color: white;
+}

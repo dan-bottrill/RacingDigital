@@ -24,8 +24,7 @@ namespace RacingDigital.Services
                 var testUser = new AppUser
                 {
                     UserName = "RacehorseOwner123",
-                    FullName = "Dan Bottrill",
-                    Password = "RedRum2025&",
+                    FullName = "Dan Bottrill",                    
                 };
 
                 // Insert the test user

@@ -6,10 +6,10 @@
 
         <h2>Login</h2>
 
-        <form id="login-form" method="post" asp-controller="Account" asp-action="Login">
+        <form id="login-form" method="post" asp-controller="Identity" asp-action="Login">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="accountName" name="AccountName" placeholder="Account Name" required />
-                <label for="accountName">Account Name</label>
+                <input type="text" class="form-control" id="userName" name="UserName" placeholder="User Name" required />
+                <label for="userName">User Name</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="password" name="Password" placeholder="Password" required />

@@ -1,4 +1,9 @@
-﻿body {
+﻿* {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+}
+
+body {
     background-color: #f4f4f4; 
 }
 
@@ -17,21 +22,116 @@
     cursor: pointer;
     transition: ease-in-out .25s;
 }
+.page-link{
+    color: white;
+    text-decoration: none;
+}
+.page-link:hover {
+    color: black;
+}
 
+#dashboard-body {
+    padding: 0 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 .dashboard-grid {
     grid-gap: 20px;
-    width: 1200px;
+    width: 100%;
+    max-width: 1000px;
     height: 85vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr
+    grid-template-rows: auto;
+    grid-template-areas:
+        "results results analytics"
+        "coming1 profile profile"
+        "coming2 . .";
+    color: white;
 }
 #race-results-body {
-    margin: 0px 20px;
+    margin: 0 8%;
 }
 .table-wrapper {
     padding: 0px 20px;
 }
+.widget-inner {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.horse-icon {
+    width: 85px;
+    display: none;
+}
+.trophy-icon {
+    width: 50px;
+    display: none;
+}
+.charts-icon {
+    display: none;
+    width: 50px;
+}
+#race-results-widget,
+#analytics-widget,
+#horse-profile-widget,
+#coming-soon-widget1,
+#coming-soon-widget2 {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#race-results-widget {
+    background-image: url('../lib/images/raceResultsBackground (2).jpg');
+    grid-area: results;
+}
+#race-results-widget:hover {
+    background-color: white;
+    background-image: none;
+}
+#race-results-widget:hover img {
+    display: block;
+}
+
+#analytics-widget {
+    background-image: url('../lib/images/analyticsBackground.jpg');
+    grid-area: analytics;
+}
+#analytics-widget:hover {
+    background-color: white;
+    background-image: none;
+}
+#analytics-widget:hover img {
+    display: block
+}
+#horse-profile-widget {
+    background-image: url('../lib/images/horseProfileBackground.jpg');
+    grid-area: profile;
+}
+    #horse-profile-widget:hover {
+        background-color: white;
+        background-image: none;
+    }
+#horse-profile-widget:hover img {
+    display: block
+}
+#coming-soon-widget1 {
+    background-image: url('../lib/images/comingSoonBackground.jpg');
+    color: black;
+    opacity: 0.5;
+    grid-area: coming1;
+}
+#coming-soon-widget2 {
+    background-image: url('../lib/images/comingSoonBackground.jpg');
+    color: black;
+    opacity: 0.5;
+    grid-area: coming2;
+}
+
 .text-input {
     border: 1px solid #f4f4f4;
     border-radius: 6px;

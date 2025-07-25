@@ -1,11 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="dashboard-grid">
-    <a class="page-link" asp-area="Home" asp-controller="Home" asp-action="RaceResults"><div class="dash-widget"><h2>Widget 1</h2></div></a>
-    <div class="dash-widget"><h2>Widget 2</h2></div>
-    <div class="dash-widget"><h2>Widget 3</h2></div>
-    <div class="dash-widget"><h2>Widget 4</h2></div>
-    <div class="dash-widget"><h2>Widget 5</h2></div>
+<div id=dashboard-body>
+    <div class="dashboard-grid">
+        <a class="page-link dash-widget" asp-area="Home" asp-controller="Home" asp-action="RaceResults" id="race-results-widget">
+            <div class="widget-inner">
+                <img src="~/lib/images/trophyIcon.png" class="trophy-icon"/>
+                <h2>Race Results</h2>
+            </div>
+        </a>
+        <a class="page-link dash-widget" asp-area="Home" asp-controller="Home" asp-action="RaceResults" id="analytics-widget">
+            <div class="widget-inner">
+                <img src="~/lib/images/chartsIcon.png" class="charts-icon" />
+                <h2>Analytics</h2>
+            </div>
+        </a>
+        <a class="page-link dash-widget" asp-area="Home" asp-controller="Home" asp-action="RaceResults" id="horse-profile-widget">
+            <div class="widget-inner">
+                <img src="~/lib/images/horseIcon.png" class="horse-icon" />
+                <h2>My Stable</h2>
+            </div>
+        </a>
+        <div class="dash-widget" id="coming-soon-widget1"><h2>Coming Soon</h2></div>
+        <div class="dash-widget" id="coming-soon-widget2"><h2>Coming Soon</h2></div>
+    </div>
 </div>

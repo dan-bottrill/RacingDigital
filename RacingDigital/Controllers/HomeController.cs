@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RacingDigital.Areas.Identity.Models;
@@ -41,9 +42,9 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetAllRaceResults()
+    public async Task<IActionResult> GetAllRaceResults()
     {
-        var results = _raceResultService.GetAllRaces();
+        var results = await _raceResultService.GetAllRacesWithNotesAsync();
         return Json(results);
     }
 

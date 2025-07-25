@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using RacingDigital.Areas.Identity.Models;
 using RacingDigital.Data;
+using RacingDigital.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,13 @@ builder.Services.AddControllersWithViews();
 
 // Identity with MongoDB
 var mongoDbContext = new MongoDbContext(connectionString, "RacingDigital");
+
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddMongoDbStores<AppUser, AppRole, string>(mongoDbContext)
     .AddDefaultTokenProviders();
+
+builder.Services.AddSingleton<RaceResultService>();
+
 
 var app = builder.Build();
 

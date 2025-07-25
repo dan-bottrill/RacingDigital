@@ -1,4 +1,7 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using RacingDigital.Models;
 
 namespace RacingDigital.Services
@@ -23,12 +26,42 @@ namespace RacingDigital.Services
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase("RacingDigital");
             _raceResultsCollection = database.GetCollection<RaceResult>("Races");
-            _notesCollection = database.GetCollection<RaceNotes>("Notes");
+            _notesCollection = database.GetCollection<RaceNotes>("Notes");            
         }
 
         public List<RaceResult> GetAllRaces()
         {
             return _raceResultsCollection.Find(r => true).ToList();
+        }
+
+        public async Task<List<RaceResultWithNote>> GetAllRacesWithNotesAsync()
+        {
+            var races = await _raceResultsCollection.Find(_ => true).ToListAsync();
+            var notes = await _notesCollection.Find(_ => true).ToListAsync();
+
+            var result = races.Select(race =>
+            {
+                var note = notes.FirstOrDefault(n => n.RaceId == race._id);
+
+                return new RaceResultWithNote
+                {
+                    _id = race._id,
+                    Race = race.Race,
+                    RaceDate = race.RaceDate,
+                    RaceTime = race.RaceTime,
+                    Racecourse = race.Racecourse,
+                    RaceDistance = race.RaceDistance,
+                    Jockey = race.Jockey,
+                    Trainer = race.Trainer,
+                    Horse = race.Horse,
+                    FinishingPosition = race.FinishingPosition,
+                    DistanceBeaten = race.DistanceBeaten,
+                    TimeBeaten = race.TimeBeaten,
+                    Notes = note?.Note
+                };
+            }).ToList();
+
+            return result;
         }
 
         public RaceResult GetRaceById(object id)
@@ -40,5 +73,15 @@ namespace RacingDigital.Services
         {
             _raceResultsCollection.ReplaceOne(race => race._id == id, raceResult);
         }
+
+        public async Task<bool> SaveNoteAsync(RaceNotes note)
+        {
+            if (string.IsNullOrWhiteSpace(note.Note) || string.IsNullOrEmpty(note.RaceId))
+                return false;
+
+            await _notesCollection.InsertOneAsync(note);
+            return true;
+        }
+
     }
 }

@@ -55,8 +55,7 @@
             url: '/RaceResult/SaveNote',
             data: JSON.stringify({ raceId: raceId, note: note }),
             contentType: 'application/json',
-            success: function () {
-                alert('Note saved successfully!');
+            success: function () {                
                 
                 $('#raceResultsTable').DataTable().ajax.reload(null, false);
             },

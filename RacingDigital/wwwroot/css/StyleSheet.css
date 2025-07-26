@@ -3,6 +3,16 @@
     font-optical-sizing: auto;
 }
 
+p {
+    margin-bottom: 0;
+}
+
+.spinner {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
 body {
     background-color: #f4f4f4; 
 }
@@ -180,4 +190,38 @@ body {
 #login-form button {
     background-color: #F90049;
     color: white;
+}
+
+
+
+/*ANALYTICS PAGE*/
+#analytics-body {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+#insights-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+#insights-title i {
+    color: #4361ee;
+}
+#analytics-container {
+    display: flex;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 1200px;
+}
+.analytics-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    width: 250px;
 }

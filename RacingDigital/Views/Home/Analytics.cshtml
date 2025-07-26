@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="analytics-body">
+    <div>
+        <h2>Race Insights</h2>
+        <div id="insights-title"><p>Find the best jockey for every metric!</p><i class='bxr  bx-info-square'><span>Bookmark a jockey to save them as your horses' preferred jockey</span></i> </div>
+        <div id="analytics-container">
+
+            <div class="spinner" id="analytics-spinner">Loading analytics...</div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-trophy-star'></i>
+                <h4>Best Overall Jockey:</h4>
+                <h2 id="best-overall">Loading...</h2>
+            </div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-fire-alt'></i>
+                <h4>Most In-Form Jockey:</h4>
+                <h2 id="most-inform">Loading...</h2>
+            </div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-arrow-right-stroke'></i>
+                <h4>Best Short Distance Jockey:</h4>
+                <h2 id="best-short">Loading...</h2>
+            </div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-arrow-s-right'></i>
+                <h4>Best Long Distance Jockey:</h4>
+                <h2 id="best-long">Loading...</h2>
+            </div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-sun-rise'></i>
+                <h4>Best Early Performer:</h4>
+                <h2 id="best-early">Loading...</h2>
+            </div>
+
+            <div class="analytics-block">
+                <i class='bxr bx-sun-set'></i>
+                <h4>Best Late Performer:</h4>
+                <h2 id="best-late">Loading...</h2>
+            </div>
+
+            <div id="analytics-error" style="display:none; color: red;">Error loading analytics.</div>
+
+            
+
+        </div>
+        <h1>OR</h1>
+
+        <p>Find your best jockey based on custom variables</p>
+        <select>
+            <option>Racecourse</option>
+        </select>
+        <select><option>Trainer</option></select>
+    </div>
+    
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const spinner = document.getElementById("analytics-spinner");
+        const error = document.getElementById("analytics-error");
+
+        fetch("/api/Analytics/GetJockeyAnalytics")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network error");
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("best-overall").textContent = data.bestOverallJockey || "N/A";
+                document.getElementById("most-inform").textContent = data.mostInFormJockey || "N/A";
+                document.getElementById("best-short").textContent = data.bestShortDistanceJockey || "N/A";
+                document.getElementById("best-long").textContent = data.bestLongDistanceJockey || "N/A";
+                document.getElementById("best-early").textContent = data.bestEarlyPerformer || "N/A";
+                document.getElementById("best-late").textContent = data.bestLatePerformer || "N/A";
+            })
+            .catch(err => {
+                console.error("Failed to load analytics", err);
+                error.style.display = "block";
+            })
+            .finally(() => {
+                spinner.style.display = "none";
+            });
+    });
+</script>

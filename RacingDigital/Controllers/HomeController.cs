@@ -46,6 +46,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult MyStable()
+    {
+        return View();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllRaceResults()
     {

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RacingDigital.Areas.Identity.Models;
@@ -58,8 +59,15 @@ public class HomeController : Controller
         return Json(results);
     }
 
+    [HttpGet("GetHorseDetails")]
+    public IActionResult GetHorseDetails(string userId)
+    {
+        var result = _raceResultService.GetHorseDetails(userId);
+        return Ok(result);
+    }
 
-    public async Task<IActionResult> SeedTestUser(
+
+    /*public async Task<IActionResult> SeedTestUser(
     [FromServices] UserManager<AppUser> userManager)
     {
         var user = new AppUser
@@ -74,5 +82,5 @@ public class HomeController : Controller
             return Ok("User created!");
         else
             return BadRequest(result.Errors);
-    }
+    }*/
 }

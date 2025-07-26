@@ -3,45 +3,56 @@
 *@
 @{
 }
+<div id="stable-body">
+    <form id="racehorse-form" class="p-4 bg-light rounded shadow-sm col-12" method="post" action="/api/Racehorse/Add">
+        <h3 class="mb-4">Enter Racehorse Information</h3>
 
-<form id="racehorse-form" class="p-4 bg-light rounded shadow-sm" method="post" action="/api/Racehorse/Add">
-    <h3 class="mb-4">Enter Racehorse Information</h3>
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="horseName" class="form-label">Horse Name</label>
+                    <input type="text" class="form-control" id="horseName" name="HorseName" required>
+                </div>
 
-    <div class="mb-3">
-        <label for="horseName" class="form-label">Horse Name</label>
-        <input type="text" class="form-control" id="horseName" name="HorseName" required>
-    </div>
+                <div class="mb-3">
+                    <label for="foaledDate" class="form-label">Foaled Date</label>
+                    <input type="date" class="form-control" id="foaledDate" name="FoaledDate" required>
+                </div>
 
-    <div class="mb-3">
-        <label for="foaledDate" class="form-label">Foaled Date</label>
-        <input type="date" class="form-control" id="foaledDate" name="FoaledDate" required>
-    </div>
+                <div class="mb-3">
+                    <label for="racesRun" class="form-label">Races Run</label>
+                    <input type="number" class="form-control" id="racesRun" name="RacesRun" min="0" required>
+                </div>
 
-    <div class="mb-3">
-        <label for="racesRun" class="form-label">Races Run</label>
-        <input type="number" class="form-control" id="racesRun" name="RacesRun" min="0" required>
-    </div>
+                <div class="mb-3">
+                    <label for="racesWon" class="form-label">Races Won</label>
+                    <input type="number" class="form-control" id="racesWon" name="RacesWon" min="0" required>
+                </div>
+            </div>
 
-    <div class="mb-3">
-        <label for="racesWon" class="form-label">Races Won</label>
-        <input type="number" class="form-control" id="racesWon" name="RacesWon" min="0" required>
-    </div>
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="trainer" class="form-label">Trainer</label>
+                    <input type="text" class="form-control" id="trainer" name="Trainer" required>
+                </div>
 
-    <div class="mb-3">
-        <label for="trainer" class="form-label">Trainer</label>
-        <input type="text" class="form-control" id="trainer" name="Trainer" required>
-    </div>
+                <div class="mb-3">
+                    <label for="jockey" class="form-label">Preferred Jockey</label>
+                    <input type="text" class="form-control" id="jockey" name="Jockey">
+                </div>
 
-    <div class="mb-3">
-        <label for="jockey" class="form-label">Preferred Jockey</label>
-        <input type="text" class="form-control" id="jockey" name="Jockey">
-    </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Additional Notes</label>
+                    <textarea class="form-control" id="notes" name="Notes" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
 
-    <div class="mb-3">
-        <label for="notes" class="form-label">Additional Notes</label>
-        <textarea class="form-control" id="notes" name="Notes" rows="3"></textarea>
-    </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Details</button>
+    </form>
+</div>
 
-    <button type="submit" class="btn btn-primary">Save Racehorse</button>
-</form>
+
 

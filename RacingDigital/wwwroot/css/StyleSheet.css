@@ -250,3 +250,12 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+
+/*MY STABLE PAGE*/
+#stable-body {
+    display: flex;
+    width: 100%;
+    padding: 20px 8%;
+    justify-content: center;
+}

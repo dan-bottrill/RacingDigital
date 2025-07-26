@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RacingDigital.Areas.Identity.Models;
 using RacingDigital.Areas.Identity.NewFolder;
 
+
 namespace RacingDigital.Controllers
 {
     public class IdentityController : Controller

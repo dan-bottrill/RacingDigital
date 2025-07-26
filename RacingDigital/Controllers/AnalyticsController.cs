@@ -85,5 +85,49 @@ namespace RacingDigital.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("GetAllRacecourses")]
+        public IActionResult GetAllRacecourses()
+        {
+            var courses = _raceService.GetAllRaces()
+                .Select(r => r.Racecourse)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            return Ok(courses);
+        }
+
+        [HttpGet("GetAllTrainers")]
+        public IActionResult GetAllTrainers()
+        {
+            var trainers = _raceService.GetAllRaces()
+                .Select(r => r.Trainer)
+                .Distinct()
+                .OrderBy(t => t)
+                .ToList();
+
+            return Ok(trainers);
+        }
+
+        [HttpGet("GetBestByRacecourse")]
+        public IActionResult GetBestByRacecourse(string course)
+        {
+            var races = _raceService.GetAllRaces().Where(r => r.Racecourse == course);
+
+            var result = races.GroupBy(r => r.Jockey).OrderBy(g => g.Average(r => r.FinishingPosition)).Select(g => g.Key).Take(3);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetBestByTrainer")]
+        public IActionResult GetBestByTrainer(string trainer)
+        {
+            var races = _raceService.GetAllRaces().Where(r => r.Trainer == trainer);
+
+            var result = races.GroupBy(r => r.Jockey).OrderBy(g => g.Average(r => r.FinishingPosition)).Select(g => g.Key).Take(3);
+
+            return Ok(result);
+        }
     }
 }

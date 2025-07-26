@@ -214,14 +214,39 @@ body {
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     max-width: 1200px;
+    margin-bottom: 30px;
 }
 .analytics-block {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 20px;
     background-color: white;
     border-radius: 12px;
     width: 250px;
+    height: 250px;
+    position: relative
+}
+.bxr {
+    font-size: 55px;
+}
+.info-icon {
+    font-size: 30px;
+}
+.jockey-bookmark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 26px;
+    color: #a6a6a6;
+    cursor: pointer;
+}
+.jockey-bookmark:hover {
+    color: #4361ee;
+}
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
 }

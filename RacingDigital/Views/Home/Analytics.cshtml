@@ -6,45 +6,51 @@
 
 <div id="analytics-body">
     <div>
-        <h2>Race Insights</h2>
-        <div id="insights-title"><p>Find the best jockey for every metric!</p><i class='bxr  bx-info-square'><span>Bookmark a jockey to save them as your horses' preferred jockey</span></i> </div>
+        <h2 class="mb-3">Race Insights</h2>
+        <div class="mb-1" id="insights-title"><p class="fw-bold">Find the best jockey for every metric!</p><div class="d-flex align-items-center"><span>Bookmark a jockey to save them as your horses' preferred jockey</span> <i class='bxr info-icon bx-info-square'></i></div> </div>
         <div id="analytics-container">
 
             <div class="spinner" id="analytics-spinner">Loading analytics...</div>
 
             <div class="analytics-block">
-                <i class='bxr bx-trophy-star'></i>
-                <h4>Best Overall Jockey:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-trophy-star' style="color:#f0bd14"></i>
+                <p>Best Overall Jockey:</p>
                 <h2 id="best-overall">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr bx-fire-alt'></i>
-                <h4>Most In-Form Jockey:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-fire-alt' style="color:#da132d"></i>
+                <p>Most In-Form Jockey:</p>
                 <h2 id="most-inform">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr bx-arrow-right-stroke'></i>
-                <h4>Best Short Distance Jockey:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-arrow-right-stroke' style="color:#18ab49"></i>
+                <p>Best Short Distance Jockey:</p>
                 <h2 id="best-short">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr bx-arrow-s-right'></i>
-                <h4>Best Long Distance Jockey:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-arrow-s-right' style="color:#8a0404"></i>
+                <p>Best Long Distance Jockey:</p>
                 <h2 id="best-long">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr bx-sun-rise'></i>
-                <h4>Best Early Performer:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-sun-rise' style="color:#f7e92c"></i>
+                <p>Best Early Performer:</p>
                 <h2 id="best-early">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr bx-sun-set'></i>
-                <h4>Best Late Performer:</h4>
+                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr bx-sun-set' style="color:#210949"></i>
+                <p>Best Late Performer:</p>
                 <h2 id="best-late">Loading...</h2>
             </div>
 
@@ -53,13 +59,24 @@
             
 
         </div>
-        <h1>OR</h1>
+        <h2>OR</h2>
 
-        <p>Find your best jockey based on custom variables</p>
-        <select>
-            <option>Racecourse</option>
-        </select>
-        <select><option>Trainer</option></select>
+        <p class="fw-bold">Find your best jockey based on custom variables</p>
+        <div class="dropdown-wrapper">
+            <select class="form-control mb-1" id="racecourse-select">
+                <option value="">Select Racecourse</option>
+            </select>
+            <div class="mb-3" id="custom-racecourse-results"></div>
+
+            <select class="form-control mb-3" id="trainer-select">
+                <option value="">Select Trainer</option>
+            </select>
+            <div class="mb-3" id="custom-trainer-results"></div>
+        </div>
+
+        
+        
+        
     </div>
     
 
@@ -93,5 +110,71 @@
             .finally(() => {
                 spinner.style.display = "none";
             });
+
+
+
+
+        const racecourseSelect = document.getElementById('racecourse-select');
+        const trainerSelect = document.getElementById('trainer-select');
+        const racecourseResultsDiv = document.getElementById('custom-racecourse-results');
+        const trainerResultsDiv = document.getElementById('custom-trainer-results');
+
+        // Populate dropdowns
+        fetch("/api/Analytics/GetAllRacecourses")
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course;
+                    option.textContent = course;
+                    racecourseSelect.appendChild(option);
+                });
+            });
+
+        fetch("/api/Analytics/GetAllTrainers")
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(trainer => {
+                    const option = document.createElement('option');
+                    option.value = trainer;
+                    option.textContent = trainer;
+                    trainerSelect.appendChild(option);
+                });
+            });
+
+        // Event listeners
+        racecourseSelect.addEventListener('change', () => {
+            const course = racecourseSelect.value;
+            if (!course) return;
+
+            fetch(`/api/Analytics/GetBestByRacecourse?course=${encodeURIComponent(course)}`)
+                .then(res => res.json())
+                .then(data => displayResults(`Top Jockeys at ${course}`, data));
+        });
+
+        trainerSelect.addEventListener('change', () => {
+            const trainer = trainerSelect.value;
+            if (!trainer) return;
+
+            fetch(`/api/Analytics/GetBestByTrainer?trainer=${encodeURIComponent(trainer)}`)
+                .then(res => res.json())
+                .then(data => displayResults(`Top Jockeys for ${trainer}`, data));
+        });
+        function displayResults(title, data) {
+            racecourseResultsDiv.innerHTML = `
+                <h3>${title}</h3>
+                <ul>
+                    ${data.map(jockey => `<li>${jockey}</li>`).join('')}
+                </ul>
+            `;
+        }
+        function displayResults(title, data) {
+            trainerResultsDiv.innerHTML = `
+                <h3>${title}</h3>
+                <ul>
+                    ${data.map(jockey => `<li>${jockey}</li>`).join('')}
+                </ul>
+            `;
+        }
     });
 </script>

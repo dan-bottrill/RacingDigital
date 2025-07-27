@@ -13,11 +13,6 @@ namespace RacingDigital.Controllers
             _raceResultService = raceResultService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> SaveNote([FromBody] RaceNotes note)
         {

@@ -32,6 +32,7 @@ builder.Services.AddIdentity<AppUser, AppRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<RaceResultService>();
+builder.Services.AddSingleton<MyStableService>();
 
 
 var app = builder.Build();

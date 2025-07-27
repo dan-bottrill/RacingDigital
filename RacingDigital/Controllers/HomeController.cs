@@ -1,11 +1,13 @@
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RacingDigital.Areas.Identity.Models;
 using RacingDigital.Models;
 using RacingDigital.Services;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace RacingDigital.Controllers;
 
@@ -14,11 +16,13 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
 
     private readonly RaceResultService _raceResultService;
+    private readonly MyStableService _myStableService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, RaceResultService raceResultService, MyStableService myStableService)
     {
         _logger = logger;
-        _raceResultService = new RaceResultService();
+        _raceResultService = raceResultService;
+        _myStableService = myStableService;
     }
 
     public IActionResult Index()
@@ -47,9 +51,18 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize]
     public IActionResult MyStable()
     {
-        return View();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId))
+        {
+            // Optionally log the issue here
+            return RedirectToAction("Login", "Identity");
+        }
+
+        var viewModel = _myStableService.GetHorseDetails(userId);
+        return View(viewModel);
     }
 
     [HttpGet]
@@ -59,12 +72,6 @@ public class HomeController : Controller
         return Json(results);
     }
 
-    [HttpGet("GetHorseDetails")]
-    public IActionResult GetHorseDetails(string userId)
-    {
-        var result = _raceResultService.GetHorseDetails(userId);
-        return Ok(result);
-    }
 
 
     /*public async Task<IActionResult> SeedTestUser(

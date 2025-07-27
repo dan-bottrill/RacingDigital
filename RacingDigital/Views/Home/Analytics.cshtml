@@ -13,42 +13,42 @@
             <div class="spinner" id="analytics-spinner">Loading analytics...</div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-trophy-star' style="color:#f0bd14"></i>
                 <p>Best Overall Jockey:</p>
                 <h2 id="best-overall">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-fire-alt' style="color:#da132d"></i>
                 <p>Most In-Form Jockey:</p>
                 <h2 id="most-inform">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-arrow-right-stroke' style="color:#18ab49"></i>
                 <p>Best Short Distance Jockey:</p>
                 <h2 id="best-short">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-arrow-s-right' style="color:#8a0404"></i>
                 <p>Best Long Distance Jockey:</p>
                 <h2 id="best-long">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-sun-rise' style="color:#f7e92c"></i>
                 <p>Best Early Performer:</p>
                 <h2 id="best-early">Loading...</h2>
             </div>
 
             <div class="analytics-block">
-                <i class='bxr  bx-bookmark jockey-bookmark'></i>
+                <i class='bxr  bx-bookmark jockey-bookmark' data-jockey-name=""></i>
                 <i class='bxr bx-sun-set' style="color:#210949"></i>
                 <p>Best Late Performer:</p>
                 <h2 id="best-late">Loading...</h2>
@@ -90,27 +90,42 @@
         const error = document.getElementById("analytics-error");
 
         fetch("/api/Analytics/GetJockeyAnalytics")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network error");
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("best-overall").textContent = data.bestOverallJockey || "N/A";
-                document.getElementById("most-inform").textContent = data.mostInFormJockey || "N/A";
-                document.getElementById("best-short").textContent = data.bestShortDistanceJockey || "N/A";
-                document.getElementById("best-long").textContent = data.bestLongDistanceJockey || "N/A";
-                document.getElementById("best-early").textContent = data.bestEarlyPerformer || "N/A";
-                document.getElementById("best-late").textContent = data.bestLatePerformer || "N/A";
-            })
-            .catch(err => {
-                console.error("Failed to load analytics", err);
-                error.style.display = "block";
-            })
-            .finally(() => {
-                spinner.style.display = "none";
-            });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network error");
+        }
+        return response.json();
+    })
+    .then(data => {
+        const mappings = [
+            { key: "bestOverallJockey", id: "best-overall" },
+            { key: "bestOverallJockey", id: "best-overall" },
+            { key: "mostInFormJockey", id: "most-inform" },
+            { key: "bestShortDistanceJockey", id: "best-short" },
+            { key: "bestLongDistanceJockey", id: "best-long" },
+            { key: "bestEarlyPerformer", id: "best-early" },
+            { key: "bestLatePerformer", id: "best-late" }
+        ];
+
+        mappings.forEach((m, index) => {
+            const name = data[m.key] || "N/A";
+            const h2 = document.getElementById(m.id);
+            const bookmark = document.querySelectorAll('.jockey-bookmark')[index];
+
+            h2.textContent = name;
+            if (bookmark) {
+                bookmark.setAttribute('data-jockey-name', name);
+            }
+        });
+    })
+    .catch(err => {
+        console.error("Failed to load analytics", err);
+        error.style.display = "block";
+    })
+    .finally(() => {
+        spinner.style.display = "none";
+    });
+
 
 
 
@@ -178,4 +193,34 @@
             `;
         }
     });
+
+        document.querySelectorAll('.jockey-bookmark').forEach(bookmark => {
+        bookmark.addEventListener('click', function () {
+            const jockey = this.getAttribute('data-jockey-name');
+            if (!jockey || jockey === "N/A") {
+                alert("No jockey selected to bookmark.");
+                return;
+            }
+
+            fetch('/api/Analytics/SavePreferredJockey', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jockey })
+            })
+
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to save');
+                return response.json();
+            })
+            .then(data => {
+                alert(`Bookmarked ${jockey} successfully!`);
+                this.classList.add("selected");
+            })
+            .catch(error => {
+                console.error('Bookmarking failed:', error);
+                alert('Failed to save preferred jockey.');
+            });
+        });
+    });
+
 </script>

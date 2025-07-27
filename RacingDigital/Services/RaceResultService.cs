@@ -11,7 +11,6 @@ namespace RacingDigital.Services
 
         private readonly IMongoCollection<RaceResult> _raceResultsCollection;
         private readonly IMongoCollection<RaceNotes> _notesCollection;
-        private readonly IMongoCollection<HorseProfile> _horseCollection;
 
         public RaceResultService()
         {
@@ -28,7 +27,6 @@ namespace RacingDigital.Services
             var database = client.GetDatabase("RacingDigital");
             _raceResultsCollection = database.GetCollection<RaceResult>("Races");
             _notesCollection = database.GetCollection<RaceNotes>("Notes");
-            _horseCollection = database.GetCollection<HorseProfile>("HorseProfile");
         }
 
         public List<RaceResult> GetAllRaces()
@@ -71,11 +69,6 @@ namespace RacingDigital.Services
             return _raceResultsCollection.Find(r => r._id == id).FirstOrDefault();
         }
 
-        public void UpdateRaceResult(string id, RaceResult raceResult)
-        {
-            _raceResultsCollection.ReplaceOne(race => race._id == id, raceResult);
-        }
-
         public async Task<bool> SaveNoteAsync(RaceNotes note)
         {
             if (string.IsNullOrWhiteSpace(note.Note) || string.IsNullOrEmpty(note.RaceId))
@@ -85,12 +78,7 @@ namespace RacingDigital.Services
             return true;
         }
 
-        public HorseProfile GetHorseDetails(string userId)
-        {
-            var result = _horseCollection.Find(h => h.UserId == userId).FirstOrDefault();
-
-            return result;
-        }
+        
 
     }
 }

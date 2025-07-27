@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RacingDigital.Models;
 using RacingDigital.Services;
+using System.Security.Claims;
 
 namespace RacingDigital.Controllers
 {
@@ -9,10 +10,12 @@ namespace RacingDigital.Controllers
     public class AnalyticsController : ControllerBase
     {
         private readonly RaceResultService _raceService;
+        private readonly MyStableService _myStableService;
 
-        public AnalyticsController(RaceResultService raceService)
+        public AnalyticsController(RaceResultService raceService, MyStableService myStableService)
         {
             _raceService = raceService;
+            _myStableService = myStableService;
         }
 
         [HttpGet("GetJockeyAnalytics")]
@@ -129,5 +132,28 @@ namespace RacingDigital.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("SavePreferredJockey")]
+        public async Task<IActionResult> SavePreferredJockey([FromBody] PreferredJockeyRequest request)
+        {
+            if (string.IsNullOrEmpty(request?.Jockey))
+                return BadRequest("Jockey name is required.");
+
+            HorseProfile profile = new HorseProfile
+            {
+                Jockey = request.Jockey,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+            };
+
+            var result = await _myStableService.SetJockey(profile);
+            return Ok(result);
+        }
+
+
+    }
+
+    public class PreferredJockeyRequest
+    {
+        public string Jockey { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace RacingDigital.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public int _id { get; set; }
+        public string _id { get; set; }
 
         [Required]
         public string UserId { get; set; }

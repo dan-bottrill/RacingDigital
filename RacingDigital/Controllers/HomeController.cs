@@ -56,8 +56,7 @@ public class HomeController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userId))
-        {
-            // Optionally log the issue here
+        {           
             return RedirectToAction("Login", "Identity");
         }
 
@@ -72,22 +71,4 @@ public class HomeController : Controller
         return Json(results);
     }
 
-
-
-    /*public async Task<IActionResult> SeedTestUser(
-    [FromServices] UserManager<AppUser> userManager)
-    {
-        var user = new AppUser
-        {
-            UserName = "RacehorseOwner123",
-            FullName = "Dan Bottrill"
-        };
-
-        var result = await userManager.CreateAsync(user, "RedRum2025&");
-
-        if (result.Succeeded)
-            return Ok("User created!");
-        else
-            return BadRequest(result.Errors);
-    }*/
 }

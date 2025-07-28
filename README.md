@@ -53,3 +53,5 @@ This application connects to a MongoDB Atlas database using an environment varia
    ```bash
    dotnet run
 
+> Note: One anomalous data record was removed to prevent it from distorting analytical results.
+

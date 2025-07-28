@@ -1,31 +1,55 @@
 # Project Name: Racehorse Owner Hub
 
 ## Overview
-This project is a web application designed to demostrate the possible use cases and analytical possibilities connected to horse race results and general racehorse ownership.
 
-The backend is built using ASP .NET Core with a MongoDB datatbase, the frontend is built using Razor pages containing HTML and Javascript.
+This project is a web application designed to demonstrate the possible use cases and analytical capabilities related to horse race results and racehorse ownership.
 
-##Features
-- User controlled access to emulate racehorse owner's realistic user journey
-- View, filter, sort and search previous rae results
-- Add custom notes to race results
-- View reporting insights based on race result data for different metrics
-- generate best jockey results based on racecourse and trainer
-- bookmark preferred jockey for the user's own racehorse
-- View and edit profile details for the user's own horse
+The backend is built using **ASP.NET Core 8** with a **MongoDB Atlas** database. The frontend uses **Razor Pages** with HTML and JavaScript.
+
+---
+
+## Features
+
+- Role-based access to emulate a racehorse owner's journey
+- View, filter, sort, and search historical race results
+- Add personal notes to specific races
+- View reporting insights and analytics across different performance metrics
+- Generate jockey rankings based on racecourse and trainer filters
+- Bookmark a preferred jockey for the user’s horse
+- View and edit profile information for the user's horse
+
+---
 
 ## Setup and Running the Project
 
 ### Prerequisites
-- .NET 8 SDK or later installed
-- Modern web browser (Chrome, Firefox, Edge)
-- login details... u:RacehorseOwner123 p:RedRum2025&
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download) or later installed
+- A modern web browser (Chrome, Firefox, Edge)
+
+### Test Login Credentials
+
+- **Username:** `RacehorseOwner123`
+- **Password:** `RedRum2025&`
+
+---
 
 ## Configuration
 
-This app connects to a MongoDB Atlas database using an environment variable called `MONGODB_URI`.
+This application connects to a MongoDB Atlas database using an environment variable called `MONGODB_URI`.
 
-To run the app locally, create a new environment variable (or use your IDE's run/debug settings) with:
+### To run the app locally:
 
-**Variable name**: `MONGODB_URI`
-**Value**: `mongodb+srv://danbottrill1:WTh7VeME3F8cBWc3@dbcluster.ai05yxn.mongodb.net/?retryWrites=true&w=majority&appName=DBCluster`
+1. Create an environment variable:
+   - **Variable name:** `MONGODB_URI`
+   - **Value:**
+     ```
+     mongodb+srv://danbottrill1:WTh7VeME3F8cBWc3@dbcluster.ai05yxn.mongodb.net/?retryWrites=true&w=majority&appName=DBCluster
+     ```
+
+2. Alternatively, configure it in your IDE (e.g., Visual Studio > Project Properties > Debug > Environment Variables).
+
+3. Run the app with:
+   ```bash
+   dotnet run
+
